@@ -52,73 +52,86 @@ public class SpringCreateFactoriesInstancesTest {
         return instance;
     }
 
-//    public static Class<?> forName(String name, @Nullable ClassLoader classLoader)
-//            throws ClassNotFoundException, LinkageError {
-//
-//        Assert.notNull(name, "Name must not be null");
-//        //根据基本类的JVM命名规则(如果合适的话)，将给定的类名name解析为基本类型的包装类
-//        Class<?> clazz = resolvePrimitiveClassName(name);
-//        if (clazz == null) {
-//            //commonClassCache是包含java.lang包下所有类，将类的类名作为键，对应类作为值的一个Map集合。
-//            clazz = commonClassCache.get(name); //根据类名，获取commonClassCache集合中的值，如果为空，表示目标类不是java.lang包的下类，即不是原始类型。
-//        }
-//        if (clazz != null) {
-//            //如果根据类名，已经获取到了类，则直接返回该类。
-            //如果本地类（基本类型类，其他），不需要解析，直接返回
-//            return clazz;
-//        }
-//
-//        //判断clas属性值是否为数组对象。比如：java.lang.String[]
-//        // "java.lang.String[]" style arrays
-//        if (name.endsWith(ARRAY_SUFFIX)) {
-//            //如果是，则将类名后的“[]”方括号截去，返回java.lang.String,递归查找类名，找到后，将Class类型转换为数组。
-//            String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
-//            Class<?> elementClass = forName(elementClassName, classLoader); //找到数组元素的class类型
-//            return Array.newInstance(elementClass, 0).getClass();
-//        }
-//
-//        //class属性值是否为数组对象的二进制表示。比如：[Ljava.lang.String
-//        // "[Ljava.lang.String;" style arrays
-//        if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
-//            //如果是，则将值的“[L”部分截去，递归查找类名，找到后，将对应的Class类型转换为数组
-//            String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
-//            Class<?> elementClass = forName(elementName, classLoader);
-//            return Array.newInstance(elementClass, 0).getClass();
-//        }
-//
-//        //class属性值是否为二维数组
-//        // "[[I" or "[[Ljava.lang.String;" style arrays
-//        if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
-//            String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
-//            Class<?> elementClass = forName(elementName, classLoader);
-//            return Array.newInstance(elementClass, 0).getClass();
-//        }
-//
-//        //获取classLoader
-//        ClassLoader clToUse = classLoader;
-//        if (clToUse == null) {
-//            //如果classLoader为空，则获取默认的classLoader对象。
-//            clToUse = getDefaultClassLoader();
-//        }
-//        try {
-//            //返回加载后的类
-//            return (clToUse != null ? clToUse.loadClass(name) : Class.forName(name));
-//        }
-//        catch (ClassNotFoundException ex) {
-//            //用于处理内部类的情况。
-//            int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
-//            if (lastDotIndex != -1) {
-//                //拼接内部类的名字。
-//                String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
-//                try {
-//                    return (clToUse != null ? clToUse.loadClass(innerClassName) : Class.forName(innerClassName));
-//                }
-//                catch (ClassNotFoundException ex2) {
-//                    // Swallow - let original exception get through
-//                }
-//            }
-//            throw ex;
-//        }
-//    }
+/*    public static Class<?> forName(String name, @Nullable ClassLoader classLoader)
+            throws ClassNotFoundException, LinkageError {
 
+        Assert.notNull(name, "Name must not be null");
+        //根据基本类的JVM命名规则(如果合适的话)，将给定的类名name解析为基本类型的包装类
+        Class<?> clazz = resolvePrimitiveClassName(name);
+        if (clazz == null) {
+            //commonClassCache是包含java.lang包下所有类，将类的类名作为键，对应类作为值的一个Map集合。
+            clazz = commonClassCache.get(name); //根据类名，获取commonClassCache集合中的值，如果为空，表示目标类不是java.lang包的下类，即不是原始类型。
+        }
+        if (clazz != null) {
+            //如果根据类名，已经获取到了类，则直接返回该类。
+            如果本地类（基本类型类，其他），不需要解析，直接返回
+            return clazz;
+        }
+
+        //判断clas属性值是否为数组对象。比如：java.lang.String[]
+        // "java.lang.String[]" style arrays
+        if (name.endsWith(ARRAY_SUFFIX)) {
+            //如果是，则将类名后的“[]”方括号截去，返回java.lang.String,递归查找类名，找到后，将Class类型转换为数组。
+            String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
+            Class<?> elementClass = forName(elementClassName, classLoader); //找到数组元素的class类型
+            return Array.newInstance(elementClass, 0).getClass();
+        }
+
+        //class属性值是否为数组对象的二进制表示。比如：[Ljava.lang.String
+        // "[Ljava.lang.String;" style arrays
+        if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
+            //如果是，则将值的“[L”部分截去，递归查找类名，找到后，将对应的Class类型转换为数组
+            String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
+            Class<?> elementClass = forName(elementName, classLoader);
+            return Array.newInstance(elementClass, 0).getClass();
+        }
+
+        //class属性值是否为二维数组
+        // "[[I" or "[[Ljava.lang.String;" style arrays
+        if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
+            String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
+            Class<?> elementClass = forName(elementName, classLoader);
+            return Array.newInstance(elementClass, 0).getClass();
+        }
+
+        //获取classLoader
+        ClassLoader clToUse = classLoader;
+        if (clToUse == null) {
+            //如果classLoader为空，则获取默认的classLoader对象。
+            clToUse = getDefaultClassLoader();
+        }
+        try {
+            //返回加载后的类
+            return (clToUse != null ? clToUse.loadClass(name) : Class.forName(name));
+        }
+        catch (ClassNotFoundException ex) {
+            //用于处理内部类的情况。
+            int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
+            if (lastDotIndex != -1) {
+                //拼接内部类的名字。
+                String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
+                try {
+                    return (clToUse != null ? clToUse.loadClass(innerClassName) : Class.forName(innerClassName));
+                }
+                catch (ClassNotFoundException ex2) {
+                    // Swallow - let original exception get through
+                }
+            }
+            throw ex;
+        }
+    }*/
+
+// class Loader loadClass源码解析
+/*
+*  当启动一个JVM时候，BootstrapClassLoader会加载java核心类，它是其他类加载器的parent,是唯一一个没有parent的classLoader
+*  接下来是ExtensionClassLoader，用来从java系统变量java.ext.dir目录下的jar包中加载类。
+*  第三个是System classpath类加载器，是extension的child,用来从java.class.path下面加载类
+*  双亲委派加载，大多数类加载器首先会到自己的parent中查找类或者资源，如果找不到，才会在自己的本地进行查找
+*  目的：为了避免同一个类被加载多次。
+*  相关异常：
+*  NoClassDefFoundError  NoSuchMethodError  ClassCastException
+* */
+
+//    getDeclaredConstructor  获取有关构造函数的信息，返回当前类的所有声明的构造函数
+//    instantiateClass
 }
