@@ -53,7 +53,7 @@ public class DekkerFirst {
 
     public static void process0(final AtomicInteger turn,boolean ex)throws Exception {
         while (turn.get() != 0) {
-
+            System.out.println(Thread.currentThread().getName() + "等待进入临界区");
         }
         System.out.println(Thread.currentThread().getName() + " 开始访问临界区");
         try {
@@ -71,7 +71,7 @@ public class DekkerFirst {
 
     public static void process1(final AtomicInteger turn,boolean ex)throws Exception {
         while (turn.get() != 1) {
-
+            System.out.println(Thread.currentThread().getName() + "等待进入临界区");
         }
         System.out.println(Thread.currentThread().getName() + " 开始访问临界区");
         try {
