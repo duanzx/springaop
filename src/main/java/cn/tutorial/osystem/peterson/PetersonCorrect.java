@@ -1,12 +1,13 @@
-package cn.tutorial.osystem.dekker;
+package cn.tutorial.osystem.peterson;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 既允许进程谦让地申请进入临界区，又通过给定序号避免过分谦让
+ * 完美实现了双线程互斥的问题
+ *
  * */
-public class DekkerCorrect {
+public class PetersonCorrect {
 
     public static void main(String[] args)throws Exception{
         ThreadGroup threadGroup = new ThreadGroup("dekker");
@@ -32,51 +33,36 @@ public class DekkerCorrect {
     }
 
     public static void p0(final AtomicInteger turn,final AtomicInteger p0useFlag,final AtomicInteger p1useFlag){
-            while (!p0useFlag.compareAndSet(0,1)){
+        while (!p0useFlag.compareAndSet(0,1)){
 
-            }
-            while (p1useFlag.get() == 1){
-                while (!p0useFlag.compareAndSet(1,0)){
+        }
+        while (turn.get() == 0 && !turn.compareAndSet(0,1)){
 
-                }
-                while (turn.get() == 1){
+        }
+        while (p1useFlag.get() == 1 && turn.get() == 1){
 
-                }
-                while (!p0useFlag.compareAndSet(0,1)){
+        }
+        visit();
+        while (!p0useFlag.compareAndSet(1,0)){
 
-                }
-            }
-            visit();
-            while (turn.get() == 0 && !turn.compareAndSet(0,1)){
-                System.out.println("-------1");
-            }
-            while (!p0useFlag.compareAndSet(1,0)){
-                System.out.println("-------2");
-            }
+        }
     }
 
     public static void p1(final AtomicInteger turn,final AtomicInteger p0useFlag,final AtomicInteger p1useFlag){
-            while (!p1useFlag.compareAndSet(0,1)){
+        while (!p1useFlag.compareAndSet(0,1)){
 
-            }
-            while (p0useFlag.get() == 1){
-                while (!p1useFlag.compareAndSet(1,0)){
+        }
+        while (turn.get() == 1 && !turn.compareAndSet(1,0)){
 
-                }
-                while (turn.get() == 0){
+        }
+        while (p0useFlag.get() == 1 && turn.get() == 0){
 
-                }
-                while (!p1useFlag.compareAndSet(0,1)){
+        }
+        visit();
+        while (!p1useFlag.compareAndSet(1,0)){
 
-                }
-            }
-            visit();
-            while (turn.get() == 1 && !turn.compareAndSet(1,0)){
+        }
 
-            }
-            while (!p1useFlag.compareAndSet(1,0)){
-
-            }
     }
 
     public static void visit(){
