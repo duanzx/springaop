@@ -9,7 +9,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 
 public class SpringCreateFactoriesInstancesTest {
-// 参考 spring createSpringFactoriesInstances
+// 参考 spring createSpringFactoriesInstance
+// BeanUtils instantiateClass
 //    for (String name : names) {
 //        try {
 //            Class<?> instanceClass = ClassUtils.forName(name, classLoader);
