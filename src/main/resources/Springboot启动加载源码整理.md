@@ -1,4 +1,4 @@
-[参考链接](https://blog.csdn.net/u014044812/article/details/84256764)
+[参考链接](https://blog.csdn.net/u014044812/article/details/84256764) [链接2](https://blog.csdn.net/woshilijiuyi/article/details/82219585)
 ### 启动流程
 ```
 public static ConfigurableApplicationContext run(Class<?>[] primarySources,
@@ -46,6 +46,10 @@ public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySourc
 	初始化类initializer , 监听器的实现类，都是在spring.factories文件中配置好的，在代码中通过getSpringFactoriesInstances方法获取      
 	这种机制叫做：SPI机制，通过本地的注册发现获取到具体的实现类，实现轻松的可插拔。
 ```
+### SpringApplication run 方法整理流程
+
+
+
 ### SPI机制实现
 ```
 private <T> Collection<T> getSpringFactoriesInstances(Class<T> type,
