@@ -11,3 +11,18 @@ package cn.tutorial.springaop;
 *
 * AOP
 * */
+
+/*
+@Configuration
+public class YamlConfig {
+    @Bean
+    public PropertySourcesPlaceholderConfigurer properties() {
+        PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+        YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
+
+        yaml.setResources(new ClassPathResource("conf/invoice.yml"));
+
+        configurer.setProperties(yaml.getObject());
+        return configurer;
+    }
+}*/
