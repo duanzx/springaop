@@ -27,7 +27,7 @@ public class DekkerFirst {
         }, "p0-1").start();
         new Thread(threadGroup, () -> {
             try {
-                process1(turn,true);
+                process1(turn,false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -57,7 +57,7 @@ public class DekkerFirst {
         }
         System.out.println(Thread.currentThread().getName() + " 开始访问临界区");
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
